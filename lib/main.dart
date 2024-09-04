@@ -3,17 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:zp_calendar/boxes.dart';
-import 'package:zp_calendar/calendar_model.dart';
-import 'package:zp_calendar/create_calendar_event.dart';
-import 'package:zp_calendar/menu_page.dart';
-import 'package:zp_calendar/navigation.dart';
-import 'package:zp_calendar/onboarding.dart';
+import 'package:zp_calendar/data/boxes.dart';
+import 'package:zp_calendar/data/calendar_model.dart';
+import 'package:zp_calendar/ui/create_calendar_event.dart';
+import 'package:zp_calendar/ui/menu_page.dart';
+import 'package:zp_calendar/navigation/navigation.dart';
+import 'package:zp_calendar/ui/onboarding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  Hive.registerAdapter(CalendarModalAdapter());
+  Hive.registerAdapter(CalendarModelAdapter());
   Hive.registerAdapter(DayIsAdapter());
   await Hive.openBox<CalendarModel>(HiveBoxes.calendar);
   runApp(MyApp());

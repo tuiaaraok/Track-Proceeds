@@ -4,12 +4,12 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
-import 'package:zp_calendar/boxes.dart';
-import 'package:zp_calendar/calendar_modal.dart';
-import 'package:zp_calendar/info_page.dart';
-import 'package:zp_calendar/home_page.dart';
-import 'package:zp_calendar/navigation.dart';
-import 'package:zp_calendar/reports_page.dart';
+import 'package:zp_calendar/data/boxes.dart';
+import 'package:zp_calendar/data/calendar_model.dart';
+import 'package:zp_calendar/ui/info_page.dart';
+import 'package:zp_calendar/ui/home_page.dart';
+import 'package:zp_calendar/navigation/navigation.dart';
+import 'package:zp_calendar/ui/reports_page.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({

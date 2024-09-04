@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:zp_calendar/boxes.dart';
-import 'package:zp_calendar/calendar_model.dart';
-import 'package:zp_calendar/navigation.dart';
+import 'package:zp_calendar/data/boxes.dart';
+import 'package:zp_calendar/data/calendar_model.dart';
+import 'package:zp_calendar/navigation/navigation.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key, required this.isappbar, required this.opnebar});
@@ -109,17 +110,28 @@ class _MyHomePageState extends State<HomePage> {
                                               horizontal: 8.w),
                                           child: GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                _currentMonth = DateTime(
-                                                  _currentMonth.year,
-                                                  _currentMonth.month - 1,
-                                                );
-                                                _pageController.previousPage(
-                                                  duration: const Duration(
-                                                      milliseconds: 300),
-                                                  curve: Curves.easeInOut,
-                                                );
-                                              });
+                                              if (_currentMonth.month == 1) {
+                                                // Если января — переключаемся на декабрь предыдущего года
+                                                setState(() {
+                                                  _currentMonth = DateTime(
+                                                      _currentMonth.year - 1,
+                                                      12);
+                                                  _pageController.jumpToPage(
+                                                      11); // Сброс к странице 11 (декабрь предыдущего года)
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  _currentMonth = DateTime(
+                                                    _currentMonth.year,
+                                                    _currentMonth.month - 1,
+                                                  );
+                                                  _pageController.previousPage(
+                                                    duration: const Duration(
+                                                        milliseconds: 300),
+                                                    curve: Curves.easeInOut,
+                                                  );
+                                                });
+                                              }
                                             },
                                             child: Container(
                                               width: 18.sp,
@@ -130,17 +142,27 @@ class _MyHomePageState extends State<HomePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            setState(() {
-                                              _currentMonth = DateTime(
-                                                _currentMonth.year,
-                                                _currentMonth.month + 1,
-                                              );
-                                              _pageController.nextPage(
-                                                duration: const Duration(
-                                                    milliseconds: 300),
-                                                curve: Curves.easeInOut,
-                                              );
-                                            });
+                                            if (_currentMonth.month == 12) {
+                                              // Если декабря — переключаемся на январь следующего года
+                                              setState(() {
+                                                _currentMonth = DateTime(
+                                                    _currentMonth.year + 1, 1);
+                                                _pageController.jumpToPage(
+                                                    0); // Сброс к странице 0 (январь следующего года)
+                                              });
+                                            } else {
+                                              setState(() {
+                                                _currentMonth = DateTime(
+                                                  _currentMonth.year,
+                                                  _currentMonth.month + 1,
+                                                );
+                                                _pageController.nextPage(
+                                                  duration: const Duration(
+                                                      milliseconds: 300),
+                                                  curve: Curves.easeInOut,
+                                                );
+                                              });
+                                            }
                                           },
                                           child: Container(
                                             width: 18.sp,
@@ -259,8 +281,7 @@ class _MyHomePageState extends State<HomePage> {
                                   left: 10.w,
                                   top: 10.h,
                                   child: Text(
-                                    DateFormat('MMMM yyyy')
-                                        .format(selectedDate!),
+                                    DateFormat('d MMMM').format(selectedDate!),
                                     style: TextStyle(
                                         fontSize: 18.sp,
                                         fontWeight: FontWeight.bold),
@@ -271,25 +292,23 @@ class _MyHomePageState extends State<HomePage> {
                                     top: 20.h,
                                     child: GestureDetector(
                                       onTap: () {
-                                        if (checkList.isEmpty) {
-                                          Navigator.pushNamed(context,
-                                                  create_calendar_event,
-                                                  arguments: selectedDate)
-                                              .then((onValue) {
-                                            print("Hi");
-                                            if (onValue != null) {
-                                              if ((onValue as DayIs).start ==
-                                                  null) {
-                                                noteList.add(onValue);
-                                              } else {
-                                                checkList.add(onValue as DayIs);
-                                              }
-                                              setState(() {});
+                                        Navigator.pushNamed(
+                                                context, create_calendar_event,
+                                                arguments: selectedDate)
+                                            .then((onValue) {
+                                          print("Hi");
+                                          if (onValue != null) {
+                                            if ((onValue as DayIs).start ==
+                                                null) {
+                                              noteList.add(onValue);
+                                            } else {
+                                              checkList.add(onValue as DayIs);
                                             }
+                                            setState(() {});
+                                          }
 
-                                            print("Hi");
-                                          });
-                                        }
+                                          print("Hi");
+                                        });
                                       },
                                       child: Container(
                                         height: 90.h,
@@ -331,57 +350,87 @@ class _MyHomePageState extends State<HomePage> {
                                         )
                                       : Container(
                                           width: 300.w,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(12.r)),
-                                              color: Color(0xFFD9D9D9)),
-                                          child: Center(
-                                            child: Column(
-                                              children: [
-                                                ListTile(
-                                                  title: Text(
-                                                    "New Shift",
-                                                    style: TextStyle(
-                                                        fontSize: 14.sp,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  subtitle: Text(
-                                                    "${checkList[0].start} - ${checkList[0].finish}",
-                                                    style: TextStyle(
-                                                        fontSize: 18.sp,
+                                          height: 300.h,
+                                          child: ListView.builder(
+                                              itemCount: checkList.length,
+                                              shrinkWrap: true,
+                                              itemBuilder: (context, index) {
+                                                return Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 2.h),
+                                                  child: Container(
+                                                    width: 300.w,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    12.r)),
                                                         color:
-                                                            Color(0xFFE72525)),
-                                                  ),
-                                                  trailing: Text(
-                                                    textAlign: TextAlign.center,
-                                                    "${checkList[0].payment}\$/h",
-                                                    style: TextStyle(
-                                                        fontSize: 24.sp,
-                                                        color:
-                                                            Color(0xFFE72525)),
-                                                  ),
-                                                ),
-                                                (checkList[0].note != "")
-                                                    ? Column(
+                                                            Color(0xFFD9D9D9)),
+                                                    child: Center(
+                                                      child: Column(
                                                         children: [
-                                                          Divider(
-                                                            color: Colors.black,
-                                                            endIndent: 20.w,
-                                                            indent: 20.w,
+                                                          ListTile(
+                                                            title: Text(
+                                                              "New Shift",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                            subtitle: Text(
+                                                              "${checkList[index].start} - ${checkList[index].finish}",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      18.sp,
+                                                                  color: Color(
+                                                                      0xFFE72525)),
+                                                            ),
+                                                            trailing: Text(
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              "${checkList[index].payment}\$/h",
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      24.sp,
+                                                                  color: Color(
+                                                                      0xFFE72525)),
+                                                            ),
                                                           ),
-                                                          Text(
-                                                            checkList[0].note,
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    18.sp),
-                                                          ),
+                                                          (checkList[index]
+                                                                      .note !=
+                                                                  "")
+                                                              ? Column(
+                                                                  children: [
+                                                                    Divider(
+                                                                      color: Colors
+                                                                          .black,
+                                                                      endIndent:
+                                                                          20.w,
+                                                                      indent:
+                                                                          20.w,
+                                                                    ),
+                                                                    Text(
+                                                                      checkList[
+                                                                              index]
+                                                                          .note,
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              18.sp),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              : SizedBox
+                                                                  .shrink()
                                                         ],
-                                                      )
-                                                    : SizedBox.shrink()
-                                              ],
-                                            ),
-                                          ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
                                         ),
                                 ),
                                 Align(
@@ -482,6 +531,8 @@ class _MyHomePageState extends State<HomePage> {
       // Проверка наличия элементов в dayList перед доступом к last
       if (!istr) {
         if (box.isNotEmpty) {
+          dayList.clear();
+          noteList.clear();
           if (box.getAt(0)!.day.containsKey(dateKey)) {
             box.getAt(0)!.day[dateKey]!.forEach((action) {
               if (action?.start == null) {
@@ -499,8 +550,9 @@ class _MyHomePageState extends State<HomePage> {
         GestureDetector(
           onTap: () {
             selectedDate = date;
-            checkList.clear();
+            checkList = [];
             is_open_node = false;
+
             addCheckLust(selectedDate!);
             //                              if (box.isEmpty) {
             //   box.add(CalendarModal(day: {

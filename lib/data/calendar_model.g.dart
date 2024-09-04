@@ -6,7 +6,7 @@ part of 'calendar_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CalendarModalAdapter extends TypeAdapter<CalendarModel> {
+class CalendarModelAdapter extends TypeAdapter<CalendarModel> {
   @override
   final int typeId = 1;
 
@@ -36,7 +36,7 @@ class CalendarModalAdapter extends TypeAdapter<CalendarModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CalendarModalAdapter &&
+      other is CalendarModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

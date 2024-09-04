@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zp_calendar/create_calendar_event.dart';
-import 'package:zp_calendar/menu_page.dart';
-import 'package:zp_calendar/report_info.dart';
+import 'package:zp_calendar/ui/create_calendar_event.dart';
+import 'package:zp_calendar/ui/menu_page.dart';
+import 'package:zp_calendar/ui/report_info.dart';
 
 const String create_calendar_event = "/create-calendar-event";
 const String menu_page = "/menu-page";

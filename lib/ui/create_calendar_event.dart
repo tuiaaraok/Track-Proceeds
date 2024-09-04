@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
-import 'package:zp_calendar/boxes.dart';
-import 'package:zp_calendar/calendar_model.dart';
+import 'package:zp_calendar/data/boxes.dart';
+import 'package:zp_calendar/data/calendar_model.dart';
 
 class CreateCalendarEvent extends StatefulWidget {
   CreateCalendarEvent({super.key, required this.currentDate});
@@ -473,13 +473,20 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                                 color: Color(0xFFE72525)
                                                     .withOpacity(0.5),
                                                 fontSize: 18.sp)),
-                                        keyboardType: TextInputType.number,
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                signed: true, decimal: true),
+                                        textInputAction: TextInputAction.done,
                                         cursorColor: Colors.transparent,
                                         style: TextStyle(
                                             color: Color(0xFFE72525),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18.sp),
                                         onChanged: (text) {},
+                                        onSubmitted: (_) {
+                                          FocusScope.of(context)
+                                              .unfocus(); // Закрываем клавиатуру
+                                        },
                                       ),
                                     ),
                                   ),
@@ -522,7 +529,9 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                                 color: Color(0xFFE72525)
                                                     .withOpacity(0.5),
                                                 fontSize: 18.sp)),
-                                        keyboardType: TextInputType.number,
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                signed: true, decimal: true),
                                         cursorColor: Colors.transparent,
                                         style: TextStyle(
                                             color: Color(0xFFE72525),

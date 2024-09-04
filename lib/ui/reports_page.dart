@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
-import 'package:zp_calendar/boxes.dart';
-import 'package:zp_calendar/calendar_modal.dart';
+import 'package:zp_calendar/data/boxes.dart';
+import 'package:zp_calendar/data/calendar_model.dart';
 import 'package:flutter/material.dart';
-import 'package:zp_calendar/navigation.dart';
+import 'package:zp_calendar/navigation/navigation.dart';
 
 class ReportsPage extends StatefulWidget {
   @override

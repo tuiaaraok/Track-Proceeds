@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zp_calendar/navigation.dart';
+import 'package:zp_calendar/navigation/navigation.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override

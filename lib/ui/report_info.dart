@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
-import 'package:zp_calendar/boxes.dart';
-import 'package:zp_calendar/calendar_model.dart';
+import 'package:zp_calendar/data/boxes.dart';
+import 'package:zp_calendar/data/calendar_model.dart';
 
 class ReportInfo extends StatefulWidget {
   ReportInfo({required this.selectBtn});
