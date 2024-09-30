@@ -54,7 +54,7 @@ class _MenuPageState extends State<MenuPage> {
         backgroundColor: Color(0xFFDD6565),
         bottomNavigationBar: isAppbar
             ? Container(
-                height: 75.h,
+                height: 5.5.h + 15.h + 35.h + 14.sp + 6.h,
                 width: double.infinity,
                 color: Colors.white,
                 child: Row(
@@ -85,7 +85,7 @@ class _MenuPageState extends State<MenuPage> {
                           AnimatedContainer(
                             duration: Duration(milliseconds: 300),
                             width: currentIndex == 0 ? 60.w : 0,
-                            height: 5.5,
+                            height: 5.5.h,
                             decoration: BoxDecoration(color: Colors.deepOrange),
                           )
                         ],

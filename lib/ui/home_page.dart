@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:zp_calendar/data/boxes.dart';
 import 'package:zp_calendar/data/calendar_model.dart';
 import 'package:zp_calendar/navigation/navigation.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key, required this.isappbar, required this.opnebar});
@@ -223,7 +224,7 @@ class _MyHomePageState extends State<HomePage> {
                                   child: Column(
                                     children: [
                                       Container(
-                                        height: 200.w,
+                                        height: 200.h,
                                         width: 200.w,
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
@@ -719,19 +720,30 @@ _buildContIndi(
                               color: Colors.white,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(12.r))),
-                          child: ListTile(
-                            title: Text(
-                              DateFormat('MMMM yyyy').format(date),
-                              style: TextStyle(fontSize: 16.sp),
-                            ),
-                            subtitle: Text(
-                              DateFormat('EEEE').format(date),
-                              style: TextStyle(fontSize: 24.sp),
-                            ),
-                            trailing: Text(
-                              textAlign: TextAlign.center,
-                              DateFormat('d').format(date),
-                              style: TextStyle(fontSize: 42.sp),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      DateFormat('MMMM yyyy').format(date),
+                                      style: TextStyle(fontSize: 16.sp),
+                                    ),
+                                    Text(
+                                      DateFormat('EEEE').format(date),
+                                      style: TextStyle(fontSize: 24.sp),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  DateFormat('d').format(date),
+                                  style: TextStyle(fontSize: 42.sp),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -739,7 +751,7 @@ _buildContIndi(
                     ),
                   ),
                   Positioned(
-                    top: 40.h,
+                    bottom: -10.h,
                     right: 140.w,
                     child: IconButton(
                         onPressed: () {
@@ -749,7 +761,7 @@ _buildContIndi(
                           !is_open_node
                               ? Icons.keyboard_arrow_up
                               : Icons.keyboard_arrow_down_outlined,
-                          size: 20.h,
+                          size: 30.h,
                         )),
                   ),
                 ],

@@ -66,6 +66,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
               color: Colors.white,
               fontWeight: FontWeight.bold),
         )),
+        leadingWidth: 70.w,
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 10.w),
@@ -161,7 +162,9 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                       child: Center(
                                         child: Text(
                                           "Yes",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.sp),
                                         ),
                                       ),
                                     ),
@@ -188,7 +191,9 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                       child: Center(
                                         child: Text(
                                           "No",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              fontSize: 18.sp,
+                                              color: Colors.white),
                                         ),
                                       ),
                                     ),

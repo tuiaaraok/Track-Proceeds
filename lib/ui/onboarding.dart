@@ -42,36 +42,38 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Container(
-          child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Container(
-                  height: 620.h,
-                  child: PageView(
-                    physics: ClampingScrollPhysics(),
-                    controller: _pageController,
-                    onPageChanged: (int page) {
-                      setState(() {
-                        _currentPage = page;
-                      });
-                    },
-                    children: <Widget>[
-                      FirstWidgetForOnBoardingInfo(
-                        asset_image: 'assets/on_boarding_first.png',
-                        title: 'Keeping track of your work\nschedule is ',
-                        title_s: 'Easy!',
-                        subtitle:
-                            'Open your calendar, and keep\ntrack of your work days, as well as\ncalculate your time',
-                      ),
-                      WidgetForOnBoardingInfo(
-                        asset_image: 'assets/on_boarding_second.png',
-                        title:
-                            'Keep track of your income,\nlook at all the reports.',
-                        subtitle:
-                            "Calculate your lifetime earnings,\nadd events that are important to\nyou",
-                      ),
-                    ],
+                Expanded(
+                  child: Container(
+                    child: PageView(
+                      physics: ClampingScrollPhysics(),
+                      controller: _pageController,
+                      onPageChanged: (int page) {
+                        setState(() {
+                          _currentPage = page;
+                        });
+                      },
+                      children: <Widget>[
+                        FirstWidgetForOnBoardingInfo(
+                          asset_image: 'assets/on_boarding_first.png',
+                          title: 'Keeping track of your work\nschedule is ',
+                          title_s: 'Easy!',
+                          subtitle:
+                              'Open your calendar, and keep\ntrack of your work days, as well as\ncalculate your time',
+                        ),
+                        WidgetForOnBoardingInfo(
+                          asset_image: 'assets/on_boarding_second.png',
+                          title:
+                              'Keep track of your income,\nlook at all the reports.',
+                          subtitle:
+                              "Calculate your lifetime earnings,\nadd events that are important to\nyou",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Column(
@@ -171,7 +173,7 @@ class WidgetForOnBoardingInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 40.h, bottom: 40.h),
+      padding: EdgeInsets.only(top: 20.h, bottom: 40.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -180,7 +182,7 @@ class WidgetForOnBoardingInfo extends StatelessWidget {
               asset_image,
             ),
             fit: BoxFit.fitWidth,
-            height: 360.w,
+            height: 360.h,
             width: 360.w,
           ),
           SizedBox(height: 30.h),
@@ -232,7 +234,7 @@ class FirstWidgetForOnBoardingInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 40.h, bottom: 40.h),
+      padding: EdgeInsets.only(top: 20.h, bottom: 39.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -241,7 +243,7 @@ class FirstWidgetForOnBoardingInfo extends StatelessWidget {
               asset_image,
             ),
             fit: BoxFit.fitWidth,
-            height: 360.w,
+            height: 360.h,
             width: 360.w,
           ),
           SizedBox(height: 30.h),

@@ -136,7 +136,7 @@ class _ReportInfoState extends State<ReportInfo> {
                       },
                       child: Container(
                         width: 80.h,
-                        height: 80,
+                        height: 80.h,
                         decoration: BoxDecoration(
                             color: Color(0xFFD9D9D9),
                             borderRadius: BorderRadius.circular(10),
