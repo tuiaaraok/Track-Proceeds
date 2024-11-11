@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
@@ -8,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:zp_calendar/data/boxes.dart';
 import 'package:zp_calendar/data/calendar_model.dart';
 
+// ignore: must_be_immutable
 class CreateCalendarEvent extends StatefulWidget {
   CreateCalendarEvent({super.key, required this.currentDate});
   DateTime currentDate;
@@ -100,7 +98,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
             child: Container(
               height: 200.h,
               width: 200.w,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage("assets/calendar.png"),
                       fit: BoxFit.fitWidth)),
@@ -109,7 +107,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
           Align(
             alignment: Alignment.bottomCenter,
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 100),
+              duration: const Duration(milliseconds: 100),
               height: isWorking ? 844.h : 516.h,
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -117,11 +115,11 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                       topLeft: Radius.circular(20.r),
                       topRight: Radius.circular(20.r))),
               child: SingleChildScrollView(
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: 350.w,
                         child: Wrap(
                           children: [
@@ -129,7 +127,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                               padding: EdgeInsets.symmetric(
                                 vertical: 10.h,
                               ),
-                              child: Container(
+                              child: SizedBox(
                                 width: 350.w,
                                 child: Text(
                                   textAlign: TextAlign.center,
@@ -138,7 +136,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                 ),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: 350.w,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -154,9 +152,9 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                       height: 40.h,
                                       decoration: BoxDecoration(
                                           color: isWorking
-                                              ? Color.fromARGB(
+                                              ? const Color.fromARGB(
                                                   255, 247, 106, 106)
-                                              : Color(0xFF736D6D),
+                                              : const Color(0xFF736D6D),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(12.r))),
                                       child: Center(
@@ -183,9 +181,9 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                       height: 40.h,
                                       decoration: BoxDecoration(
                                           color: !isWorking
-                                              ? Color.fromARGB(
+                                              ? const Color.fromARGB(
                                                   255, 247, 106, 106)
-                                              : Color(0xFF736D6D),
+                                              : const Color(0xFF736D6D),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(12.r))),
                                       child: Center(
@@ -207,7 +205,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                             Center(
                               child: SizedBox(
                                 width: 330.w,
-                                child: Divider(
+                                child: const Divider(
                                   color: Colors.black,
                                 ),
                               ),
@@ -221,7 +219,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                 SizedBox(
                                   height: 38.h,
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 310.w,
                                   child: Text(
                                     "Notes",
@@ -240,7 +238,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(12.r)),
-                                    color: Color(0xFFD9D9D9),
+                                    color: const Color(0xFFD9D9D9),
                                   ),
                                   child: Padding(
                                     padding:
@@ -256,13 +254,13 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                           hintText: 'None',
                                           hintStyle: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              color: Color(0xFFE72525)
+                                              color: const Color(0xFFE72525)
                                                   .withOpacity(0.5),
                                               fontSize: 18.sp)),
                                       keyboardType: TextInputType.text,
                                       cursorColor: Colors.transparent,
                                       style: TextStyle(
-                                          color: Color(0xFFE72525),
+                                          color: const Color(0xFFE72525),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18.sp),
                                       onChanged: (text) {},
@@ -287,11 +285,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                           box.add(CalendarModel(day: {
                                             dateKey: [dayIs]
                                           }));
-                                          print("box");
                                         } else {
-                                          box.keys.forEach((action) {
-                                            print(action);
-                                          });
                                           if (box
                                               .getAt(0)!
                                               .day
@@ -301,18 +295,18 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                             day.forEach(
                                               (key, value) {
                                                 if (key == dateKey) {
-                                                  value.add(dayIs!);
+                                                  value.add(dayIs);
                                                 }
                                               },
                                             );
                                             box.putAt(
                                                 0, CalendarModel(day: day));
                                           } else {
-                                            Map<String, List<DayIs>> new_date =
+                                            Map<String, List<DayIs>> newDate =
                                                 box.getAt(0)!.day;
-                                            new_date[dateKey] = [dayIs];
-                                            box.putAt(0,
-                                                CalendarModel(day: new_date));
+                                            newDate[dateKey] = [dayIs];
+                                            box.putAt(
+                                                0, CalendarModel(day: newDate));
                                           }
                                         }
                                         Navigator.pop(context, dayIs);
@@ -323,9 +317,9 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                       height: 60.h,
                                       decoration: BoxDecoration(
                                           color: _updateFormCompletion()
-                                              ? Color.fromARGB(
+                                              ? const Color.fromARGB(
                                                   255, 241, 106, 106)
-                                              : Color.fromARGB(
+                                              : const Color.fromARGB(
                                                   255, 117, 51, 51),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(12.r))),
@@ -345,7 +339,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                             )
                           : Column(
                               children: [
-                                Container(
+                                SizedBox(
                                   width: 310.w,
                                   child: Text(
                                     "Start",
@@ -361,7 +355,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(12.r)),
-                                    color: Color(0xFFD9D9D9),
+                                    color: const Color(0xFFD9D9D9),
                                   ),
                                   child: Padding(
                                     padding:
@@ -377,13 +371,13 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                             hintText: '00:00',
                                             hintStyle: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Color(0xFFE72525)
+                                                color: const Color(0xFFE72525)
                                                     .withOpacity(0.5),
                                                 fontSize: 18.sp)),
                                         keyboardType: TextInputType.text,
                                         cursorColor: Colors.transparent,
                                         style: TextStyle(
-                                            color: Color(0xFFE72525),
+                                            color: const Color(0xFFE72525),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18.sp),
                                         onChanged: (text) {},
@@ -394,7 +388,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                 SizedBox(
                                   height: 28.h,
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 310.w,
                                   child: Text(
                                     "Finish",
@@ -410,7 +404,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(12.r)),
-                                    color: Color(0xFFD9D9D9),
+                                    color: const Color(0xFFD9D9D9),
                                   ),
                                   child: Padding(
                                     padding:
@@ -426,13 +420,13 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                             hintText: '00:00',
                                             hintStyle: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Color(0xFFE72525)
+                                                color: const Color(0xFFE72525)
                                                     .withOpacity(0.5),
                                                 fontSize: 18.sp)),
                                         keyboardType: TextInputType.datetime,
                                         cursorColor: Colors.transparent,
                                         style: TextStyle(
-                                            color: Color(0xFFE72525),
+                                            color: const Color(0xFFE72525),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18.sp),
                                         onChanged: (text) {},
@@ -443,7 +437,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                 SizedBox(
                                   height: 28.h,
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 310.w,
                                   child: Text(
                                     "Payment (\$)",
@@ -459,7 +453,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(12.r)),
-                                    color: Color(0xFFD9D9D9),
+                                    color: const Color(0xFFD9D9D9),
                                   ),
                                   child: Padding(
                                     padding:
@@ -475,16 +469,16 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                             hintText: '0 \$',
                                             hintStyle: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Color(0xFFE72525)
+                                                color: const Color(0xFFE72525)
                                                     .withOpacity(0.5),
                                                 fontSize: 18.sp)),
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                                signed: true, decimal: true),
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(
+                                            signed: true, decimal: true),
                                         textInputAction: TextInputAction.done,
                                         cursorColor: Colors.transparent,
                                         style: TextStyle(
-                                            color: Color(0xFFE72525),
+                                            color: const Color(0xFFE72525),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18.sp),
                                         onChanged: (text) {},
@@ -499,7 +493,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                 SizedBox(
                                   height: 28.h,
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 310.w,
                                   child: Text(
                                     "Tip (\$)",
@@ -515,7 +509,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(12.r)),
-                                    color: Color(0xFFD9D9D9),
+                                    color: const Color(0xFFD9D9D9),
                                   ),
                                   child: Padding(
                                     padding:
@@ -531,15 +525,15 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                             hintText: '0 \$',
                                             hintStyle: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Color(0xFFE72525)
+                                                color: const Color(0xFFE72525)
                                                     .withOpacity(0.5),
                                                 fontSize: 18.sp)),
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                                signed: true, decimal: true),
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(
+                                            signed: true, decimal: true),
                                         cursorColor: Colors.transparent,
                                         style: TextStyle(
-                                            color: Color(0xFFE72525),
+                                            color: const Color(0xFFE72525),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18.sp),
                                         onChanged: (text) {},
@@ -550,7 +544,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                 SizedBox(
                                   height: 28.h,
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 310.w,
                                   child: Text(
                                     "Notes",
@@ -569,7 +563,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(12.r)),
-                                    color: Color(0xFFD9D9D9),
+                                    color: const Color(0xFFD9D9D9),
                                   ),
                                   child: Padding(
                                     padding:
@@ -585,13 +579,13 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                           hintText: 'None',
                                           hintStyle: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              color: Color(0xFFE72525)
+                                              color: const Color(0xFFE72525)
                                                   .withOpacity(0.5),
                                               fontSize: 18.sp)),
                                       keyboardType: TextInputType.text,
                                       cursorColor: Colors.transparent,
                                       style: TextStyle(
-                                          color: Color(0xFFE72525),
+                                          color: const Color(0xFFE72525),
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18.sp),
                                       onChanged: (text) {},
@@ -619,7 +613,6 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                           box.add(CalendarModel(day: {
                                             dateKey: [dayIs]
                                           }));
-                                          print("box");
                                         } else {
                                           if (box
                                               .getAt(0)!
@@ -630,18 +623,18 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                             day.forEach(
                                               (key, value) {
                                                 if (key == dateKey) {
-                                                  value.add(dayIs!);
+                                                  value.add(dayIs);
                                                 }
                                               },
                                             );
                                             box.putAt(
                                                 0, CalendarModel(day: day));
                                           } else {
-                                            Map<String, List<DayIs>> new_date =
+                                            Map<String, List<DayIs>> newDate =
                                                 box.getAt(0)!.day;
-                                            new_date[dateKey] = [dayIs];
-                                            box.putAt(0,
-                                                CalendarModel(day: new_date));
+                                            newDate[dateKey] = [dayIs];
+                                            box.putAt(
+                                                0, CalendarModel(day: newDate));
                                           }
                                         }
                                         Navigator.pop(context, dayIs);
@@ -652,9 +645,9 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
                                       height: 60.h,
                                       decoration: BoxDecoration(
                                           color: _updateFormCompletion()
-                                              ? Color.fromARGB(
+                                              ? const Color.fromARGB(
                                                   255, 241, 106, 106)
-                                              : Color.fromARGB(
+                                              : const Color.fromARGB(
                                                   255, 117, 51, 51),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(12.r))),

@@ -3,14 +3,14 @@ import 'package:zp_calendar/ui/create_calendar_event.dart';
 import 'package:zp_calendar/ui/menu_page.dart';
 import 'package:zp_calendar/ui/report_info.dart';
 
-const String create_calendar_event = "/create-calendar-event";
-const String menu_page = "/menu-page";
-const String report_info = "/report-info";
+const String createCalendarEvent = "/create-calendar-event";
+const String menuPage = "/menu-page";
+const String reportInfo = "/report-info";
 
 class NavigationApp {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case create_calendar_event:
+      case createCalendarEvent:
         var args = settings.arguments as DateTime;
         return MaterialPageRoute(
           builder: (_) {
@@ -20,14 +20,14 @@ class NavigationApp {
           },
           settings: settings,
         );
-      case menu_page:
+      case menuPage:
         return MaterialPageRoute(
           builder: (_) {
-            return MenuPage();
+            return const MenuPage();
           },
           settings: settings,
         );
-      case report_info:
+      case reportInfo:
         var args = settings.arguments as List<bool>;
         return MaterialPageRoute(
           builder: (_) {
@@ -41,7 +41,7 @@ class NavigationApp {
       default:
         return MaterialPageRoute(
           builder: (_) {
-            return MenuPage();
+            return const MenuPage();
           },
           settings: settings,
         );

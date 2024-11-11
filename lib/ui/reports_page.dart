@@ -1,13 +1,11 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
-import 'package:zp_calendar/data/boxes.dart';
-import 'package:zp_calendar/data/calendar_model.dart';
-import 'package:flutter/material.dart';
 import 'package:zp_calendar/navigation/navigation.dart';
 
 class ReportsPage extends StatefulWidget {
+  const ReportsPage({super.key});
+
   @override
   State<ReportsPage> createState() => _ReportsPageState();
 }
@@ -28,9 +26,9 @@ class _ReportsPageState extends State<ReportsPage> {
       if (selectedItems[2]) 'Salary + tips per month',
     ];
     if (selectedTexts.isNotEmpty) {
-      Navigator.pushNamed(context, report_info, arguments: selectedItems);
+      Navigator.pushNamed(context, reportInfo, arguments: selectedItems);
     }
-    print(selectedItems[0]);
+   
   }
 
   @override
@@ -64,9 +62,9 @@ class _ReportsPageState extends State<ReportsPage> {
                     margin: EdgeInsets.all(10.h),
                     padding: EdgeInsets.all(20.h),
                     decoration: BoxDecoration(
-                      color: Color(0xFFD9D9D9),
+                      color: const Color(0xFFD9D9D9),
                       border: selectedItems[i]
-                          ? Border.all(color: Color(0xFFE72525))
+                          ? Border.all(color: const Color(0xFFE72525))
                           : null,
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -89,12 +87,12 @@ class _ReportsPageState extends State<ReportsPage> {
                 onTap: _showSelection,
                 child: Container(
                   width: 310.w,
-                  margin: EdgeInsets.all(10),
-                  padding: EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: selectedItems.contains(true)
-                        ? Color.fromARGB(255, 241, 106, 106)
-                        : Color.fromARGB(255, 117, 51, 51),
+                        ? const Color.fromARGB(255, 241, 106, 106)
+                        : const Color.fromARGB(255, 117, 51, 51),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(

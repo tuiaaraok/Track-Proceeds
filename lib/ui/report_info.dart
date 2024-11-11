@@ -5,7 +5,7 @@ import 'package:zp_calendar/data/boxes.dart';
 import 'package:zp_calendar/data/calendar_model.dart';
 
 class ReportInfo extends StatefulWidget {
-  ReportInfo({required this.selectBtn});
+  const ReportInfo({super.key, required this.selectBtn});
   final List<bool> selectBtn;
   @override
   State<ReportInfo> createState() => _ReportInfoState();
@@ -16,7 +16,7 @@ class _ReportInfoState extends State<ReportInfo> {
   double resH = 0.0;
   double tip = 0.0;
   double paycheck = 0.0;
-  String current_months = "";
+  String currentMonths = "";
   final List<String> months = [
     'Jan',
     'Feb',
@@ -100,15 +100,14 @@ class _ReportInfoState extends State<ReportInfo> {
                         Box<CalendarModel> contactsBox =
                             Hive.box<CalendarModel>(HiveBoxes.calendar);
                         if (contactsBox.getAt(0)?.day != null) {
-                          current_months = months[index];
+                          currentMonths = months[index];
                           if (contactsBox
                               .getAt(0)!
                               .day
-                              .containsKey(months[index] + " 2024")) {
-                            contactsBox
+                              .containsKey("${months[index]} 2024")) {
+                            for (var action in contactsBox
                                 .getAt(0)!
-                                .day[months[index] + " 2024"]!
-                                .forEach((action) {
+                                .day["${months[index]} 2024"]!) {
                               if (action.start != null) {
                                 DateTime startTime = DateTime.parse(
                                     "2023-01-01 ${action.start}");
@@ -124,12 +123,8 @@ class _ReportInfoState extends State<ReportInfo> {
                                 // Преобразование разницы в часы с плавающей запятой
                                 resH += (difference.inHours +
                                     difference.inMinutes.remainder(60) / 60);
-
-                                print(action.start);
-                                print(action.finish);
-                                print(resH);
                               }
-                            });
+                            }
                           }
                         }
                         setState(() {});
@@ -138,17 +133,18 @@ class _ReportInfoState extends State<ReportInfo> {
                         width: 80.h,
                         height: 80.h,
                         decoration: BoxDecoration(
-                            color: Color(0xFFD9D9D9),
+                            color: const Color(0xFFD9D9D9),
                             borderRadius: BorderRadius.circular(10),
-                            border: current_months == months[index]
+                            border: currentMonths == months[index]
                                 ? Border.all(
-                                    color: Color(0xFFE72525).withOpacity(0.7))
+                                    color: const Color(0xFFE72525)
+                                        .withOpacity(0.7))
                                 : null),
                         child: Center(
                           child: Text(
                             months[index],
                             style: TextStyle(
-                                color: Color(0xFFE72525),
+                                color: const Color(0xFFE72525),
                                 fontSize: 24.sp,
                                 fontWeight: FontWeight.w500),
                           ),
@@ -163,49 +159,49 @@ class _ReportInfoState extends State<ReportInfo> {
                 Center(
                   child: Container(
                     width: 330.w,
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Color(0xFFE72525).withOpacity(0.4),
+                      color: const Color(0xFFE72525).withOpacity(0.4),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
                       children: [
                         widget.selectBtn[0]
-                            ? Container(
+                            ? SizedBox(
                                 width: 320.w,
                                 child: Text(
-                                  "Paycheck for *${current_months} = ${paycheck}\$",
+                                  "Paycheck for *$currentMonths = $paycheck\$",
                                   style: TextStyle(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
                                 ),
                               )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                         widget.selectBtn[1]
-                            ? Container(
+                            ? SizedBox(
                                 width: 300.w,
                                 child: Text(
-                                  "Tips for *${current_months} = ${tip}\$",
+                                  "Tips for *$currentMonths = $tip\$",
                                   style: TextStyle(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
                                 ),
                               )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                         widget.selectBtn[2]
-                            ? Container(
+                            ? SizedBox(
                                 width: 300.w,
                                 child: Text(
-                                  "Salary for *${current_months} = ${tip + paycheck}\$",
+                                  "Salary for *$currentMonths = ${tip + paycheck}\$",
                                   style: TextStyle(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
                                 ),
                               )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Divider(
@@ -213,10 +209,10 @@ class _ReportInfoState extends State<ReportInfo> {
                             height: 2.h,
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           width: 330.w,
                           child: Text(
-                            "For *${current_months} you had ${resH.toInt().toString()} hours of work time.",
+                            "For *$currentMonths you had ${resH.toInt().toString()} hours of work time.",
                             style: TextStyle(
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,

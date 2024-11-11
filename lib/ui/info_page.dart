@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
 
 class InfoPage extends StatelessWidget {
+  const InfoPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +30,10 @@ class InfoPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: () async {
-                    final Uri _url = Uri.parse('https://flutter.dev');
-                    if (!await launchUrl(_url)) {
-                      throw Exception('Could not launch $_url');
+                    final Uri url = Uri.parse(
+                        'https://docs.google.com/document/d/1QQwCRLlJIJPaeS7FkLwPI-bwlUBHWPBHYBcHkxAKmK8/mobilebasic');
+                    if (!await launchUrl(url)) {
+                      throw Exception('Could not launch $url');
                     }
                   },
                   child: Container(
@@ -75,9 +76,7 @@ class InfoPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: () async {
-                    LaunchReview.launch(
-                        androidAppId: "app.openauthenticator",
-                        iOSAppId: "585027354");
+                    LaunchReview.launch(iOSAppId: "6738050939");
                   },
                   child: Container(
                     width: 310.w,

@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:intl/intl.dart';
-import 'package:zp_calendar/data/boxes.dart';
-import 'package:zp_calendar/data/calendar_model.dart';
 import 'package:zp_calendar/ui/info_page.dart';
 import 'package:zp_calendar/ui/home_page.dart';
-import 'package:zp_calendar/navigation/navigation.dart';
 import 'package:zp_calendar/ui/reports_page.dart';
 
 class MenuPage extends StatefulWidget {
@@ -21,7 +15,7 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  List<Widget> menu_body = [];
+  List<Widget> menuBody = [];
 
   int currentIndex = 0;
   bool isAppbar = true;
@@ -29,7 +23,7 @@ class _MenuPageState extends State<MenuPage> {
   @override
   void initState() {
     super.initState();
-    menu_body = [
+    menuBody = [
       HomePage(
         isappbar: () {
           setState(() {
@@ -42,8 +36,8 @@ class _MenuPageState extends State<MenuPage> {
           });
         },
       ),
-      ReportsPage(),
-      InfoPage(),
+      const ReportsPage(),
+      const InfoPage(),
       // Добавьте нужные виджеты
     ];
   }
@@ -51,7 +45,7 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFDD6565),
+        backgroundColor: const Color(0xFFDD6565),
         bottomNavigationBar: isAppbar
             ? Container(
                 height: 5.5.h + 15.h + 35.h + 14.sp + 6.h,
@@ -75,7 +69,7 @@ class _MenuPageState extends State<MenuPage> {
                             IconsaxPlusLinear.menu_board,
                             color: currentIndex == 0
                                 ? Colors.black
-                                : Color(0xFF4477B1).withOpacity(0.5),
+                                : const Color(0xFF4477B1).withOpacity(0.5),
                             size: 32.h,
                           ),
                           Text(
@@ -83,10 +77,11 @@ class _MenuPageState extends State<MenuPage> {
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             width: currentIndex == 0 ? 60.w : 0,
                             height: 5.5.h,
-                            decoration: BoxDecoration(color: Colors.deepOrange),
+                            decoration:
+                                const BoxDecoration(color: Colors.deepOrange),
                           )
                         ],
                       ),
@@ -106,7 +101,7 @@ class _MenuPageState extends State<MenuPage> {
                             IconsaxPlusLinear.document_text,
                             color: currentIndex == 1
                                 ? Colors.black
-                                : Color(0xFF4477B1).withOpacity(0.5),
+                                : const Color(0xFF4477B1).withOpacity(0.5),
                             size: 32.h,
                           ),
                           Text(
@@ -114,10 +109,11 @@ class _MenuPageState extends State<MenuPage> {
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             width: currentIndex == 1 ? 60.w : 0,
                             height: 5.5,
-                            decoration: BoxDecoration(color: Colors.deepOrange),
+                            decoration:
+                                const BoxDecoration(color: Colors.deepOrange),
                           )
                         ],
                       ),
@@ -137,7 +133,7 @@ class _MenuPageState extends State<MenuPage> {
                             IconsaxPlusLinear.setting_2,
                             color: currentIndex == 2
                                 ? Colors.black
-                                : Color(0xFF4477B1).withOpacity(0.5),
+                                : const Color(0xFF4477B1).withOpacity(0.5),
                             size: 32.h,
                           ),
                           Text(
@@ -145,10 +141,11 @@ class _MenuPageState extends State<MenuPage> {
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             width: currentIndex == 2 ? 60.w : 0,
                             height: 5.5,
-                            decoration: BoxDecoration(color: Colors.deepOrange),
+                            decoration:
+                                const BoxDecoration(color: Colors.deepOrange),
                           )
                         ],
                       ),
@@ -156,7 +153,7 @@ class _MenuPageState extends State<MenuPage> {
                   ],
                 ),
               )
-            : SizedBox.shrink(),
-        body: menu_body[currentIndex]);
+            : const SizedBox.shrink(),
+        body: menuBody[currentIndex]);
   }
 }

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:zp_calendar/data/boxes.dart';
 import 'package:zp_calendar/data/calendar_model.dart';
 import 'package:zp_calendar/navigation/navigation.dart';
-import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
   HomePage({super.key, required this.isappbar, required this.opnebar});
   VoidCallback isappbar;
@@ -22,14 +20,14 @@ DateTime? selectedDate;
 class _MyHomePageState extends State<HomePage> {
   DateTime _currentMonth = DateTime.now();
 
-  DateTime _nowDate = DateTime.now();
-  bool is_open_node = false;
+  final DateTime _nowDate = DateTime.now();
+  bool isOpenNode = false;
 
   List<DayIs> dayList = [];
   List<DayIs> noteList = [];
   List<DayIs> checkList = [];
 
-  PageController _pageController =
+  final PageController _pageController =
       PageController(initialPage: DateTime.now().month - 1);
   bool isNote(DateTime date) {
     bool hasReminder = noteList.any((reminder) =>
@@ -48,12 +46,12 @@ class _MyHomePageState extends State<HomePage> {
   }
 
   addCheckLust(DateTime now) {
-    dayList.forEach((action) {
+    for (var action in dayList) {
       if (action.data == now) {
         checkList.add(action);
         setState(() {});
       }
-    });
+    }
   }
 
   @override
@@ -74,7 +72,7 @@ class _MyHomePageState extends State<HomePage> {
               ),
               leadingWidth: double.infinity,
             ),
-            backgroundColor: Color(0xFFDD6565),
+            backgroundColor: const Color(0xFFDD6565),
             body: Stack(
               children: [
                 SafeArea(
@@ -134,7 +132,7 @@ class _MyHomePageState extends State<HomePage> {
                                                 });
                                               }
                                             },
-                                            child: Container(
+                                            child: SizedBox(
                                               width: 18.sp,
                                               child: Icon(Icons.arrow_back_ios,
                                                   size: 18.sp),
@@ -165,7 +163,7 @@ class _MyHomePageState extends State<HomePage> {
                                               });
                                             }
                                           },
-                                          child: Container(
+                                          child: SizedBox(
                                             width: 18.sp,
                                             child: Icon(Icons.arrow_forward_ios,
                                                 size: 18.sp),
@@ -177,13 +175,14 @@ class _MyHomePageState extends State<HomePage> {
                                   ],
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 230.h,
                                 child: Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.w),
                                   child: PageView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     controller: _pageController,
                                     onPageChanged: (index) {
                                       setState(() {
@@ -211,7 +210,7 @@ class _MyHomePageState extends State<HomePage> {
                                 SizedBox(
                                   height: 15.h,
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 360.w,
                                   child: Text(
                                     "Notes",
@@ -220,31 +219,29 @@ class _MyHomePageState extends State<HomePage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                Container(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 200.h,
-                                        width: 200.w,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/calendar.png"),
-                                                fit: BoxFit.fill)),
-                                      ),
-                                      Text(
-                                        textAlign: TextAlign.center,
-                                        "Select the date of\nyour notes",
-                                        style: TextStyle(fontSize: 24.sp),
-                                      )
-                                    ],
-                                  ),
+                                Column(
+                                  children: [
+                                    Container(
+                                      height: 200.h,
+                                      width: 200.w,
+                                      decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  "assets/calendar.png"),
+                                              fit: BoxFit.fill)),
+                                    ),
+                                    Text(
+                                      textAlign: TextAlign.center,
+                                      "Select the date of\nyour notes",
+                                      style: TextStyle(fontSize: 24.sp),
+                                    )
+                                  ],
                                 )
                               ])
                             : _buildContIndi(
-                                noteList, selectedDate!, is_open_node, () {
+                                noteList, selectedDate!, isOpenNode, () {
                                 setState(() {
-                                  is_open_node = !is_open_node;
+                                  isOpenNode = !isOpenNode;
                                 });
                               })
                       ],
@@ -254,11 +251,11 @@ class _MyHomePageState extends State<HomePage> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       height: selectedDate != null
                           ? isNote(selectedDate!)
                               ? 0.h
-                              : 400.h
+                              : 500.h
                           : 0.h,
                       width: double.infinity,
                       color:
@@ -294,21 +291,18 @@ class _MyHomePageState extends State<HomePage> {
                                     child: GestureDetector(
                                       onTap: () {
                                         Navigator.pushNamed(
-                                                context, create_calendar_event,
+                                                context, createCalendarEvent,
                                                 arguments: selectedDate)
                                             .then((onValue) {
-                                          print("Hi");
                                           if (onValue != null) {
                                             if ((onValue as DayIs).start ==
                                                 null) {
                                               noteList.add(onValue);
                                             } else {
-                                              checkList.add(onValue as DayIs);
+                                              checkList.add(onValue);
                                             }
                                             setState(() {});
                                           }
-
-                                          print("Hi");
                                         });
                                       },
                                       child: Container(
@@ -329,27 +323,24 @@ class _MyHomePageState extends State<HomePage> {
                                   left: checkList.isEmpty ? 100.w : 50.w,
                                   top: checkList.isEmpty ? 110.h : 150.h,
                                   child: checkList.isEmpty
-                                      ? Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 200.h,
-                                                width: 200.w,
-                                                decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                        image: AssetImage(
-                                                            "assets/calendar.png"),
-                                                        fit: BoxFit.fitWidth)),
-                                              ),
-                                              Text(
-                                                "There are no events today",
-                                                style:
-                                                    TextStyle(fontSize: 18.sp),
-                                              )
-                                            ],
-                                          ),
+                                      ? Column(
+                                          children: [
+                                            Container(
+                                              height: 200.h,
+                                              width: 200.w,
+                                              decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: AssetImage(
+                                                          "assets/calendar.png"),
+                                                      fit: BoxFit.fitWidth)),
+                                            ),
+                                            Text(
+                                              "There are no events today",
+                                              style: TextStyle(fontSize: 18.sp),
+                                            )
+                                          ],
                                         )
-                                      : Container(
+                                      : SizedBox(
                                           width: 300.w,
                                           height: 300.h,
                                           child: ListView.builder(
@@ -366,8 +357,8 @@ class _MyHomePageState extends State<HomePage> {
                                                             BorderRadius.all(
                                                                 Radius.circular(
                                                                     12.r)),
-                                                        color:
-                                                            Color(0xFFD9D9D9)),
+                                                        color: const Color(
+                                                            0xFFD9D9D9)),
                                                     child: Center(
                                                       child: Column(
                                                         children: [
@@ -386,7 +377,7 @@ class _MyHomePageState extends State<HomePage> {
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       18.sp,
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xFFE72525)),
                                                             ),
                                                             trailing: Text(
@@ -397,7 +388,7 @@ class _MyHomePageState extends State<HomePage> {
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       24.sp,
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xFFE72525)),
                                                             ),
                                                           ),
@@ -424,7 +415,7 @@ class _MyHomePageState extends State<HomePage> {
                                                                     ),
                                                                   ],
                                                                 )
-                                                              : SizedBox
+                                                              : const SizedBox
                                                                   .shrink()
                                                         ],
                                                       ),
@@ -471,7 +462,7 @@ class _MyHomePageState extends State<HomePage> {
                                 )
                               ],
                             )
-                          : SizedBox()),
+                          : const SizedBox()),
                 ),
               ],
             ),
@@ -515,7 +506,7 @@ class _MyHomePageState extends State<HomePage> {
       calendarCells.add(Container(
         decoration: const BoxDecoration(border: Border()),
         alignment: Alignment.center,
-        child: Text(""),
+        child: const Text(""),
       ));
     }
     bool istr = false;
@@ -535,13 +526,13 @@ class _MyHomePageState extends State<HomePage> {
           dayList.clear();
           noteList.clear();
           if (box.getAt(0)!.day.containsKey(dateKey)) {
-            box.getAt(0)!.day[dateKey]!.forEach((action) {
-              if (action?.start == null) {
+            for (var action in box.getAt(0)!.day[dateKey]!) {
+              if (action.start == null) {
                 noteList.add(action);
               } else {
                 dayList.add(action);
               }
-            });
+            }
           }
         }
         istr = true;
@@ -552,7 +543,7 @@ class _MyHomePageState extends State<HomePage> {
           onTap: () {
             selectedDate = date;
             checkList = [];
-            is_open_node = false;
+            isOpenNode = false;
 
             addCheckLust(selectedDate!);
             //                              if (box.isEmpty) {
@@ -592,7 +583,7 @@ class _MyHomePageState extends State<HomePage> {
             child: Container(
               decoration: BoxDecoration(
                 color: _decorationColor(dayList, date),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
               child: Stack(
                 alignment: Alignment.center,
@@ -604,7 +595,7 @@ class _MyHomePageState extends State<HomePage> {
                           right: 3.w,
                           child: _buildReminderIndicator(noteList, date),
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   // Текст даты
                   Text(
                     date.day.toString(),
@@ -626,7 +617,7 @@ class _MyHomePageState extends State<HomePage> {
     }
 
     return GridView.count(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
       crossAxisCount: 7,
       childAspectRatio: (40.w / 32.h),
@@ -644,12 +635,12 @@ _buildReminderIndicator(List<DayIs> dayList, DateTime date) {
       ? Container(
           width: 4.w,
           height: 4.w,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.blue,
             shape: BoxShape.circle,
           ),
         )
-      : SizedBox.shrink();
+      : const SizedBox.shrink();
 }
 
 //  _isbuildCalend(List<DayIs> dayList, DateTime date) {
@@ -672,7 +663,7 @@ _buildReminderIndicator(List<DayIs> dayList, DateTime date) {
 // }
 
 _buildContIndi(
-    List<DayIs> dayList, DateTime date, bool is_open_node, VoidCallback func) {
+    List<DayIs> dayList, DateTime date, bool isOpenNode, VoidCallback func) {
   DayIs? dayIs;
   bool hasReminder;
   hasReminder = dayList.any((reminder) {
@@ -690,7 +681,7 @@ _buildContIndi(
             SizedBox(
               height: 20.h,
             ),
-            Container(
+            SizedBox(
               width: 360.w,
               child: Text(
                 "Notes",
@@ -703,14 +694,14 @@ _buildContIndi(
             Container(
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.5),
-                  borderRadius: !is_open_node
+                  borderRadius: !isOpenNode
                       ? BorderRadius.all(Radius.circular(12.r))
                       : BorderRadius.only(
                           topLeft: Radius.circular(12.r),
                           topRight: Radius.circular(12.r))),
               child: Stack(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 330.w,
                     child: Column(
                       children: [
@@ -758,7 +749,7 @@ _buildContIndi(
                           func();
                         },
                         icon: Icon(
-                          !is_open_node
+                          !isOpenNode
                               ? Icons.keyboard_arrow_up
                               : Icons.keyboard_arrow_down_outlined,
                           size: 30.h,
@@ -767,13 +758,13 @@ _buildContIndi(
                 ],
               ),
             ),
-            is_open_node
+            isOpenNode
                 ? Container(
                     width: 330.w,
                     height: 154.h,
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.5),
-                        borderRadius: !is_open_node
+                        borderRadius: !isOpenNode
                             ? BorderRadius.all(Radius.circular(12.r))
                             : BorderRadius.only(
                                 bottomRight: Radius.circular(12.r),
@@ -785,14 +776,14 @@ _buildContIndi(
                         style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFFE72525)),
+                            color: const Color(0xFFE72525)),
                       ),
                     ),
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ],
         )
-      : SizedBox.shrink();
+      : const SizedBox.shrink();
 }
 
 Color _decorationColor(List<DayIs> dayList, DateTime date) {
@@ -805,8 +796,6 @@ Color _decorationColor(List<DayIs> dayList, DateTime date) {
 
 extension DateOnlyCompare on DateTime {
   bool isSameDate(DateTime other) {
-    return this.year == other.year &&
-        this.month == other.month &&
-        this.day == other.day;
+    return year == other.year && month == other.month && day == other.day;
   }
 }
