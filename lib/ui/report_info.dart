@@ -101,18 +101,20 @@ class _ReportInfoState extends State<ReportInfo> {
                             Hive.box<CalendarModel>(HiveBoxes.calendar);
                         if (contactsBox.getAt(0)?.day != null) {
                           currentMonths = months[index];
-                          if (contactsBox
-                              .getAt(0)!
-                              .day
-                              .containsKey("${months[index]} 2024")) {
-                            for (var action in contactsBox
-                                .getAt(0)!
-                                .day["${months[index]} 2024"]!) {
+                          if (contactsBox.getAt(0)!.day.containsKey(
+                              "${months[index]} ${DateTime.now().year}")) {
+                            for (var action in contactsBox.getAt(0)!.day[
+                                "${months[index]} ${DateTime.now().year}"]!) {
                               if (action.start != null) {
+                                String startTimeString =
+                                    formatTime(action.start.toString());
+                                String finishTimeString =
+                                    formatTime(action.finish.toString());
+
                                 DateTime startTime = DateTime.parse(
-                                    "2023-01-01 ${action.start}");
+                                    "2023-01-01 $startTimeString");
                                 DateTime finishTime = DateTime.parse(
-                                    "2023-01-01 ${action.finish}");
+                                    "2023-01-01 $finishTimeString");
 
                                 // Вычисление разницы
                                 Duration difference =
@@ -228,5 +230,13 @@ class _ReportInfoState extends State<ReportInfo> {
         ),
       ),
     );
+  }
+
+  String formatTime(String time) {
+    final parts = time.split(':');
+    if (parts.length == 2) {
+      return parts.map((part) => part.padLeft(2, '0')).join(':');
+    }
+    return time; // если не удалось распарсить, возвращаем без изменений
   }
 }
